@@ -5,12 +5,10 @@ name: Python application
 
 on:
   push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+    branches: [ "shubham_branch" ]
 
-permissions:
-  contents: read
+
+
 
 jobs:
   build:
@@ -23,6 +21,7 @@ jobs:
       uses: actions/setup-python@v3
       with:
         python-version: "3.10"
+        token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
@@ -38,4 +37,21 @@ jobs:
       run: |
         export PYTHONPATH=src
         pytest
-        
+    - name: create pull request
+      id: open-pr
+      uses: repo-sync/pull-request@v2
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        destination_branch: "main"
+        pr_title: "[Automated] Merge ${{ github.ref_name }} into ${{ github.event.repository.default_branch }}"
+        pr_body: "Automated Pull Request"
+
+    # https://github.com/marketplace/actions/enable-pull-request-automerge
+    - name: enable automerge
+      if: steps.open-pr.outputs.pr_number != ''
+      uses: peter-evans/enable-pull-request-automerge@v2
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        pull-request-number: ${{ steps.open-pr.outputs.pr_number }}
+        merge-method: merge
+
