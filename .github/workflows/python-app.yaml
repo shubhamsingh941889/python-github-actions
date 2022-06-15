@@ -37,6 +37,8 @@ jobs:
       run: |
         export PYTHONPATH=src
         pytest
+        
+        
     - name: create pull request
       id: open-pr
       uses: repo-sync/pull-request@v2
@@ -50,7 +52,7 @@ jobs:
       uses: juliangruber/approve-pull-request-action@v1
       with:
         github-token: ${{ secrets.ZUGZ }}
-        number: ${{ steps.open-pr.outputs.pr_number }}
+        pull-request-number: ${{ steps.open-pr.outputs.pr_number }}
         
     # https://github.com/marketplace/actions/enable-pull-request-automerge
     - name: enable automerge
