@@ -5,9 +5,8 @@ name: Python application
 
 on:
   push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+    branches: [ "shubham_branch" ]
+
 
 permissions:
   contents: read
@@ -38,4 +37,9 @@ jobs:
       run: |
         export PYTHONPATH=src
         pytest
+    - name: pull-request
+      uses: repo-sync/pull-request@v2
+      with:
+        destination_branch: "main"
+        github_token: ${{ secrets.GITHUB_TOKEN }}
         
