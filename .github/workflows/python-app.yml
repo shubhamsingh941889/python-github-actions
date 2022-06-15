@@ -8,8 +8,7 @@ on:
     branches: [ "shubham_branch" ]
 
 
-permissions:
-  contents: read
+
 
 jobs:
   build:
