@@ -49,7 +49,7 @@ jobs:
     - name: Auto approve
       uses: juliangruber/approve-pull-request-action@v1
       with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
+        github-token: ${{ secrets.ZUGZ }}
         number: ${{ steps.open-pr.outputs.pr_number }}
         
     # https://github.com/marketplace/actions/enable-pull-request-automerge
