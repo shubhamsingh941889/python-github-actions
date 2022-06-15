@@ -12,9 +12,7 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v3
     - name: Set up Python 3.10
@@ -30,16 +28,17 @@ jobs:
       run: |
         export PYTHONPATH=src
         pytest
-     
-     - name: create pull request
-        id: open-pr
-        uses: peter-evans/create-pull-request@v3
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          branch: "main"
-          base: shubham_branch1
-          title: "[Automated] Merge ${{ github.ref_name }} into ${{ github.event.repository.default_branch }}"
-          body: "Automated Pull Request"
+
+    - name: create pull request
+      id: open-pr
+      uses: peter-evans/create-pull-request@v3
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        branch: "main"
+        base: shubham_branch1
+        title: "[Automated] Merge ${{ github.ref_name }} into ${{ github.event.repository.default_branch }}"
+        body: "Automated Pull Request"
+    
 
 
 
