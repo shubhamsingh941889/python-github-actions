@@ -41,11 +41,11 @@ jobs:
 
       # https://github.com/marketplace/actions/enable-pull-request-automerge
     - name: enable automerge
-      if: steps.open-pr.outputs.pr_number != ''
+      if: steps.open-pr.outputs.pull-request-number != ''
       uses: peter-evans/enable-pull-request-automerge@v2
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
-        pull-request-number: ${{ steps.open-pr.outputs.pr_number }}
+        pull-request-number: ${{ steps.open-pr.outputs.pull-request-number }}
         merge-method: squash
 
 #     - name: create pull request
