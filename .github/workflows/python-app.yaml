@@ -28,14 +28,32 @@ jobs:
       run: |
         export PYTHONPATH=src
         pytest
-
     - name: create pull request
       id: open-pr
-      uses: peter-evans/create-pull-request@v3
+      uses: repo-sync/pull-request@v2
       with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        title: "[Automated] Merge ${{ github.ref_name }} into ${{ github.event.repository.default_branch }}"
-        body: "Automated Pull Request"
+        github_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+        destination_branch: ${{ github.event.repository.default_branch }}
+        pr_title: "[Automated] Merge ${{ github.ref_name }} into ${{ github.event.repository.default_branch }}"
+        pr_body: "Automated Pull Request"
+
+
+      # https://github.com/marketplace/actions/enable-pull-request-automerge
+    - name: enable automerge
+      if: steps.open-pr.outputs.pr_number != ''
+      uses: peter-evans/enable-pull-request-automerge@v2
+      with:
+        token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+        pull-request-number: ${{ steps.open-pr.outputs.pr_number }}
+        merge-method: squash
+
+#     - name: create pull request
+#       id: open-pr
+#       uses: peter-evans/create-pull-request@v3
+#       with:
+#         token: ${{ secrets.GITHUB_TOKEN }}
+#         title: "[Automated] Merge ${{ github.ref_name }} into ${{ github.event.repository.default_branch }}"
+#         body: "Automated Pull Request"
     
 
 
