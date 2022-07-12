@@ -3,6 +3,9 @@ name: Python application
 on:
   push:
     branches: [ "shubh" ]
+  pull_request:
+    branches: [ "main" ]
+
 
 
 
