@@ -1,4 +1,11 @@
-from app import index
+from run import app
+import unittest
 
-def test_index():
-    assert index()== "Hello World 1"
+class FlaskTest(unittest.TestCase):
+    def test_index(self):
+        tester = app.test_client(self)
+        response = tester.get("/")
+        self.assertEqual("Hello World 123", response.text)
+
+if __name__ == "__main__":
+    unittest.main()
